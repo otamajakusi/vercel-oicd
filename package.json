@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/credential-provider-web-identity": "^3.772.0",
     "@vercel/functions": "^2.0.0",
     "google-auth-library": "^9.15.1",
     "googleapis": "^148.0.0",

@@ -11,8 +11,8 @@ const GCP_SERVICE_ACCOUNT_EMAIL = process.env.GCP_SERVICE_ACCOUNT_EMAIL;
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
 const SPREADSHEET_RANGE = process.env.SPREADSHEET_RANGE;
 
-export async function GET(req: NextRequest) {
-  try {
+async function getAuthClient(external: boolean) {
+    if (external) {
     // Initialize the External Account Client
     const authClient = ExternalAccountClient.fromJSON({
       type: 'external_account',
@@ -24,8 +24,22 @@ export async function GET(req: NextRequest) {
         // Use the Vercel OIDC token as the subject token
         getSubjectToken: getVercelOidcToken,
       },
-      scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
+      //scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
     });
+  return authClient;
+  } else {
+  const authClient = await google.auth.getClient({
+    scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
+  });
+  return authClient;
+  }
+}
+
+
+export async function GET(req: NextRequest) {
+  try {
+    const authClient = await getAuthClient(true);
+
     if (authClient === null) {
       throw new Error('Failed to initialize the External Account Client');
     }
