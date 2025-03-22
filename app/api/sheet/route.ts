@@ -24,6 +24,7 @@ export async function GET(req: NextRequest) {
         // Use the Vercel OIDC token as the subject token
         getSubjectToken: getVercelOidcToken,
       },
+      scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
     });
     if (authClient === null) {
       throw new Error('Failed to initialize the External Account Client');
