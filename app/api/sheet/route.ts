@@ -24,7 +24,7 @@ async function getAuthClient(external: boolean) {
         // Use the Vercel OIDC token as the subject token
         getSubjectToken: getVercelOidcToken,
       },
-      scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
+      //scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
     });
   return authClient;
   } else {
